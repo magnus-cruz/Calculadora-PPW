@@ -3,34 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#0f172a">
+    <title>Calculadora PPW</title>
+    <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
-    <div class="calculadora">
-        <input type="text" class="display">
-        <button class="btn-calculadora number">1</button>
-        <button class="btn-calculadora number">2</button>
-        <button class="btn-calculadora number">3</button>
-        <button class="btn-calculadora number">4</button>
-        <button class="btn-calculadora number">5</button>
-        <button class="btn-calculadora number">6</button>
-        <button class="btn-calculadora number">7</button>
-        <button class="btn-calculadora number">8</button>
-        <button class="btn-calculadora number">9</button>
-        <button class="btn-calculadora number">.</button>
-        <button class="btn-calculadora operator">+</button>
-        <button class="btn-calculadora operator">*</button>
-        <button class="btn-calculadora operator">/</button>
-        <button class="btn-calculadora operator">-</button>
-        <button class="btn-calculadora action">C</button>
-        <button class="btn-calculadora action">Delete</button>
-        <button class="btn-calculadora zero">0</button>
-        <button class="btn-calculadora igual">=</button>
-    </div>
-    
+    <main class="app-shell">
+        <section class="hero" aria-labelledby="app-title">
+            <p class="eyebrow">Projeto PPW</p>
+            <h1 id="app-title">Calculadora online</h1>
+            <p class="hero-copy">
+                Interface responsiva, simples e pronta para publicar no GitHub Pages.
+            </p>
+        </section>
 
+        <section class="calculator-card" aria-label="Calculadora simples">
+            <div class="calculator-topbar">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Calculadora ativa</span>
+            </div>
 
+            <input type="text" class="display" id="display" value="0" aria-label="Display da calculadora" readonly>
+
+            <div class="calculadora" aria-label="Teclado da calculadora">
+                <button class="btn-calculadora action" type="button">C</button>
+                <button class="btn-calculadora operator" type="button">/</button>
+                <button class="btn-calculadora operator" type="button">*</button>
+                <button class="btn-calculadora operator" type="button">-</button>
+                <button class="btn-calculadora number" type="button">7</button>
+                <button class="btn-calculadora number" type="button">8</button>
+                <button class="btn-calculadora number" type="button">9</button>
+                <button class="btn-calculadora operator" type="button">+</button>
+                <button class="btn-calculadora number" type="button">4</button>
+                <button class="btn-calculadora number" type="button">5</button>
+                <button class="btn-calculadora number" type="button">6</button>
+                <button class="btn-calculadora igual" type="button">=</button>
+                <button class="btn-calculadora number" type="button">1</button>
+                <button class="btn-calculadora number" type="button">2</button>
+                <button class="btn-calculadora number" type="button">3</button>
+                <button class="btn-calculadora number" type="button">0</button>
+                <button class="btn-calculadora number" type="button">.</button>
+                <button class="btn-calculadora action" type="button">Delete</button>
+            </div>
+        </section>
+    </main>
     <script src="js/script.js"></script>
 </body>
 </html>
