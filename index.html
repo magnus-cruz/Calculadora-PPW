@@ -1,52 +1,80 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
-    <title>Calculadora PPW</title>
+    <title>Calculadora Star Wars</title>
     <link rel="stylesheet" href="CSS/style.css">
 </head>
-<body>
-    <main class="app-shell">
-        <section class="hero" aria-labelledby="app-title">
-            <p class="eyebrow">Projeto PPW</p>
-            <h1 id="app-title">Calculadora online</h1>
-            <p class="hero-copy">
-                Interface responsiva, simples e pronta para publicar no GitHub Pages.
-            </p>
-        </section>
-
-        <section class="calculator-card" aria-label="Calculadora simples">
-            <div class="calculator-topbar">
-                <span class="status-dot" aria-hidden="true"></span>
-                <span>Calculadora ativa</span>
+<body class="dark-theme">
+    <div class="app-shell">
+        
+        <!-- Contêiner unificado para o Robô e a Calculadora -->
+        <div class="calculadora-wrapper">
+            
+            <!-- Cabeçalho com o Robô (Toggle) -->
+            <div class="header-calculadora">
+                <label class="bb8-toggle">
+                    <input class="bb8-toggle__checkbox" type="checkbox">
+                    <div class="bb8-toggle__container">
+                        <div class="bb8-toggle__scenery">
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="bb8-toggle__star"></div>
+                            <div class="tatto-1"></div>
+                            <div class="tatto-2"></div>
+                            <div class="gomrassen"></div>
+                            <div class="hermes"></div>
+                            <div class="chenini"></div>
+                            <div class="bb8-toggle__cloud"></div>
+                            <div class="bb8-toggle__cloud"></div>
+                            <div class="bb8-toggle__cloud"></div>
+                        </div>
+                        <div class="bb8">
+                            <div class="bb8__head-container">
+                                <div class="bb8__antenna"></div>
+                                <div class="bb8__antenna"></div>
+                                <div class="bb8__head"></div>
+                            </div>
+                            <div class="bb8__body"></div>
+                        </div>
+                        <div class="artificial__hidden">
+                            <div class="bb8__shadow"></div>
+                        </div>
+                    </div>
+                </label>
             </div>
 
-            <input type="text" class="display" id="display" value="0" aria-label="Display da calculadora" readonly>
-
-            <div class="calculadora" aria-label="Teclado da calculadora">
-                <button class="btn-calculadora action" type="button">C</button>
-                <button class="btn-calculadora operator" type="button">/</button>
-                <button class="btn-calculadora operator" type="button">*</button>
-                <button class="btn-calculadora operator" type="button">-</button>
-                <button class="btn-calculadora number" type="button">7</button>
-                <button class="btn-calculadora number" type="button">8</button>
-                <button class="btn-calculadora number" type="button">9</button>
-                <button class="btn-calculadora operator" type="button">+</button>
-                <button class="btn-calculadora number" type="button">4</button>
-                <button class="btn-calculadora number" type="button">5</button>
-                <button class="btn-calculadora number" type="button">6</button>
-                <button class="btn-calculadora igual" type="button">=</button>
-                <button class="btn-calculadora number" type="button">1</button>
-                <button class="btn-calculadora number" type="button">2</button>
-                <button class="btn-calculadora number" type="button">3</button>
-                <button class="btn-calculadora number" type="button">0</button>
-                <button class="btn-calculadora number" type="button">.</button>
-                <button class="btn-calculadora action" type="button">Delete</button>
+            <!-- Calculadora -->
+            <div class="calculadora">
+                <input type="text" class="display" readonly>
+                <button class="btn-calculadora">C</button>
+                <button class="btn-calculadora">⌫</button>
+                <button class="btn-calculadora">/</button>
+                <button class="btn-calculadora">*</button>
+                <button class="btn-calculadora">7</button>
+                <button class="btn-calculadora">8</button>
+                <button class="btn-calculadora">9</button>
+                <button class="btn-calculadora">-</button>
+                <button class="btn-calculadora">4</button>
+                <button class="btn-calculadora">5</button>
+                <button class="btn-calculadora">6</button>
+                <button class="btn-calculadora">+</button>
+                <button class="btn-calculadora">1</button>
+                <button class="btn-calculadora">2</button>
+                <button class="btn-calculadora">3</button>
+                <button class="btn-calculadora igual">=</button>
+                <button class="btn-calculadora zero">0</button>
+                <button class="btn-calculadora">.</button>
             </div>
-        </section>
-    </main>
+            
+        </div>
+    </div>
+
     <script src="js/script.js"></script>
 </body>
 </html>

@@ -1,120 +1,193 @@
-// Variáveis para armazenar os números e a operação
-let numeroAtual = "0";
-let numeroAnterior = "";
+// Variáveis globais para armazenar os valores e a operação
+let numero1 = "";
+let numero2 = "";
+let resultado = "";
 let operacao = "";
-let limparTela = false;
-// Seleciona o elemento de exibição da calculadora e os botões
-const display = document.getElementById("display");
-const botoes = document.querySelectorAll(".btn-calculadora");
-// Atualiza a tela da calculadora com o número atual
-function atualizarTela() {
-    display.value = numeroAtual;
+// Selecionar o checkbox do tema
+const toggleTema = document.querySelector(".bb8-toggle__checkbox");
+const body = document.body;
+// Verificar se há um tema salvo no localStorage
+const temaSalvo = localStorage.getItem("tema-calculadora");
+if (temaSalvo === "light") {
+    body.classList.add("light-theme");
+    toggleTema.checked = true;
 }
-// Adiciona um número ao número atual
-function adicionarNumero(valor) {
-    if (numeroAtual === "0" || limparTela) {
-        numeroAtual = valor;
-        limparTela = false;
-        return;
-    }
-// Adiciona o valor ao número atual
-    numeroAtual += valor;
-}
-/// Adiciona um ponto decimal ao número atual
-function adicionarDecimal() {
-    if (limparTela) {
-        numeroAtual = "0";
-        limparTela = false;
-    }
+// Adicionar evento de mudança no checkbox
+toggleTema.addEventListener("change", () => {
+    const modoClaro = toggleTema.checked;
+    body.classList.toggle("light-theme", modoClaro);
+    body.classList.toggle("dark-theme", !modoClaro);
+    localStorage.setItem("tema-calculadora", modoClaro ? "light" : "dark");
+});
 
-    if (!numeroAtual.includes(".")) {
-        numeroAtual += ".";
-    }
-}
-
-function escolherOperacao(valor) {
-    if (numeroAtual === "") {
-        return;
-    }
-
-    if (numeroAnterior !== "") {
-        calcular();
-    }
-// Armazena a operação e o número atual como o número anterior
-    operacao = valor;
-    numeroAnterior = numeroAtual;
-    limparTela = true;
-}
-
-function calcular() {
-    const anterior = parseFloat(numeroAnterior);
-    const atual = parseFloat(numeroAtual);
-
-    if (Number.isNaN(anterior) || Number.isNaN(atual)) {
-        return;
-    }
-
-    let resultado = 0;
-
-    if (operacao === "+") {
-        resultado = anterior + atual;
-    } else if (operacao === "-") {
-        resultado = anterior - atual;
-    } else if (operacao === "*") {
-        resultado = anterior * atual;
-    } else if (operacao === "/") {
-        resultado = atual === 0 ? "Erro" : anterior / atual;
-    } else {
-        return;
-    }
-
-    numeroAtual = String(resultado);
-    operacao = "";
-    numeroAnterior = "";
-    limparTela = true;
-}
-
-function limparCalculadora() {
-    numeroAtual = "0";
-    numeroAnterior = "";
-    operacao = "";
-    limparTela = false;
-}
-
-function apagarUltimoNumero() {
-    if (limparTela) {
-        return;
-    }
-
-    if (numeroAtual.length > 1) {
-        numeroAtual = numeroAtual.slice(0, -1);
-    } else {
-        numeroAtual = "0";
-    }
-}
-
-botoes.forEach((botao) => {
-    botao.addEventListener("click", () => {
-        const valor = botao.textContent.trim();
-
-        if (!isNaN(valor) || valor === ".") {
-            if (valor === ".") {
-                adicionarDecimal();
-            } else {
-                adicionarNumero(valor);
-            }
-        } else if (valor === "+" || valor === "-" || valor === "*" || valor === "/") {
-            escolherOperacao(valor);
-        } else if (valor === "=") {
-            calcular();
-        } else if (valor === "C") {
-            limparCalculadora();
-        } else if (valor === "Delete") {
-            apagarUltimoNumero();
-        }
-
-        atualizarTela();
+// Escutar o clique dos botões
+document.querySelectorAll(".btn-calculadora").forEach(btn => {
+    btn.addEventListener("click", () => {
+        armazenarCalculo(btn.textContent);
     });
 });
 
-atualizarTela();
+// Ler os cliques do teclado
+document.addEventListener("keydown", (event) => {
+    const tecla = event.key;
+
+    if (/\d/.test(tecla)) {
+        event.preventDefault();
+        armazenarCalculo(tecla);
+    } else if (tecla === ".") {
+        event.preventDefault();
+        armazenarCalculo(tecla);
+    } else if (["+", "-", "*", "/"].includes(tecla)) {
+        event.preventDefault();
+        armazenarCalculo(tecla);
+    } else if (tecla === "Enter" || tecla === "=") {
+        event.preventDefault();
+        armazenarCalculo("=");
+    } else if (tecla === "Backspace") {
+        event.preventDefault();
+        armazenarCalculo("⌫");
+    } else if (tecla === "c" || tecla === "C" || tecla === "Delete") {
+        event.preventDefault();
+        armazenarCalculo("C");
+    }
+});
+// Função para armazenar os valores e operações
+function armazenarCalculo(valor) {
+   // Limpar valores se o resultado já estiver presente e uma operação não foi definida
+    if (valor === "C") {
+        limparValores();
+        atualizarTela();
+        return;
+    }
+// Apagar o último dígito se a tecla de apagar for pressionada
+    if (valor === "⌫") {
+        apagarUltimoDigito();
+        atualizarTela();
+        return;
+    }
+// Inserir decimal se a tecla de ponto for pressionada
+    if (valor === ".") {
+        inserirDecimal();
+        atualizarTela();
+        return;
+    }
+
+    if (valor === "=") {
+        calcularResultado();
+        atualizarTela();
+        return;
+    }
+
+    if (["+", "-", "*", "/"].includes(valor)) {
+        definirOperacao(valor);
+        atualizarTela();
+        return;
+    }
+
+    if (!isNaN(valor) && valor !== "") {
+        inserirNumero(valor);
+        atualizarTela();
+    }
+}
+
+function inserirNumero(valor) {
+    if (resultado !== "" && operacao === "") {
+        limparValores();
+    }
+
+    if (operacao === "") {
+        numero1 = numero1 === "" ? valor : numero1 + valor;
+    } else {
+        numero2 = numero2 === "" ? valor : numero2 + valor;
+    }
+}
+
+function inserirDecimal() {
+    if (operacao === "") {
+        if (numero1.includes(".")) return;
+        numero1 = numero1 === "" ? "0." : numero1 + ".";
+    } else {
+        if (numero2.includes(".")) return;
+        numero2 = numero2 === "" ? "0." : numero2 + ".";
+    }
+}
+
+function definirOperacao(valor) {
+    if (numero1 === "") {
+        return;
+    }
+
+    if (resultado !== "" && numero2 === "") {
+        numero1 = resultado;
+        resultado = "";
+    }
+
+    if (numero2 !== "" && operacao !== "") {
+        calcularResultado();
+        numero1 = resultado;
+        numero2 = "";
+        resultado = "";
+    }
+
+    operacao = valor;
+}
+
+function calcularResultado() {
+    if (numero1 === "" || numero2 === "" || operacao === "") {
+        return;
+    }
+
+    const n1 = Number(numero1);
+    const n2 = Number(numero2);
+
+    switch (operacao) {
+        case "+":
+            resultado = String(n1 + n2);
+            break;
+        case "-":
+            resultado = String(n1 - n2);
+            break;
+        case "*":
+            resultado = String(n1 * n2);
+            break;
+        case "/":
+            resultado = n2 === 0 ? "Erro" : String(n1 / n2);
+            break;
+    }
+
+    numero1 = resultado;
+    numero2 = "";
+    operacao = "";
+}
+// Função para apagar o último dígito
+function apagarUltimoDigito() {
+    if (resultado !== "") {
+        resultado = "";
+        return;
+    }
+
+    if (operacao !== "" && numero2 !== "") {
+        numero2 = numero2.slice(0, -1);
+    } else if (operacao !== "") {
+        operacao = "";
+    } else if (numero1 !== "") {
+        numero1 = numero1.slice(0, -1);
+    }
+}
+
+function limparValores() {
+    numero1 = "";
+    numero2 = "";
+    operacao = "";
+    resultado = "";
+}
+
+function atualizarTela() {
+    const display = document.querySelector(".display");
+
+    if (resultado !== "") {
+        display.value = resultado;
+    } else {
+        display.value = numero1 + operacao + numero2;
+    }
+}
